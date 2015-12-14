@@ -11,7 +11,9 @@ excerpt: 低版本IE的bug和兼容性，点击空块级元素时
 
 ## 本机环境
 > win7 64bit
+> 
 > Eclipse Java EE IDE :  Luna Release (4.4.0)
+> 
 > apache-maven-3.2.3
 
 ## 创建Maven项目
