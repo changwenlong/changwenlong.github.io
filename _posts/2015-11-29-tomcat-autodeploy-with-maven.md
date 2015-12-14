@@ -42,16 +42,14 @@ excerpt: 低版本IE的bug和兼容性，点击空块级元素时
 
 	将sever配置到maven的settings.xml中
 	
-	
 		<server>
-	 	 	<id>tomcat</id>
+	 		<id>tomcat</id>
 	  		<username>tomcat</username>
 	 	 	<password>111111</password>
 		</server>
 	
 
 	pom.xml引用全局的server
-	
 	
 		<plugin>
 			<groupId>org.apache.tomcat.maven</groupId>

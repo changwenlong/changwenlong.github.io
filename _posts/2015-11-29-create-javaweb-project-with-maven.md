@@ -10,11 +10,9 @@ excerpt: 低版本IE的bug和兼容性，点击空块级元素时
 {:toc}
 
 ## 本机环境
->win7 64bit
-
+> win7 64bit
 > Eclipse Java EE IDE :  Luna Release (4.4.0)
-
->apache-maven-3.2.3
+> apache-maven-3.2.3
 
 ## 创建Maven项目
 
@@ -65,9 +63,7 @@ excerpt: 低版本IE的bug和兼容性，点击空块级元素时
 		</faceted-project>
 	
 
-- 刷新项目 
-
-此时Dynamic Web Module为3.0
+- 刷新项目 此时Dynamic Web Module为3.0
 
 - 修改web.xml
 
