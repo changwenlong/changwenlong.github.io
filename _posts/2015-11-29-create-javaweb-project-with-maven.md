@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "使用Maven构建Java web项目"
-date:   2015-11-29 15:39:05
+date:   2015-11-29
 categories: maven java
 excerpt: 低版本IE的bug和兼容性，点击空块级元素时
 ---
