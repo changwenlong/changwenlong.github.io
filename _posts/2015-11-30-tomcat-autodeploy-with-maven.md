@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "Maven配置自动化部署项目到tomcat"
-date:   2015-11-29 17:26:05
+date:   2015-11-30 17:26:05
 categories: maven tomcat
 excerpt: 低版本IE的bug和兼容性，点击空块级元素时
 ---
