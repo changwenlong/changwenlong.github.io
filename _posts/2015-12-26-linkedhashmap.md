@@ -19,7 +19,7 @@ excerpt: 低版本IE的bug和兼容性，点击空块级元素时
 
 ##介绍
 
-了解了HashMap的工作原理后，理解LinkedHashMap就简单多了，HashMap底层的数据结构采用哈希表，LinkedHashMap再此基础上加上了循环双向链表的数据结构，存储节点上多加了两个指针before，after。
+了解了HashMap的工作原理后，理解LinkedHashMap就简单多了，HashMap底层的数据结构采用哈希表，LinkedHashMap在此基础上加上了循环双向链表的数据结构，存储节点上多加了两个指针before，after。
 
 循环双向链表以及存储节点的定义。
 
@@ -68,13 +68,15 @@ excerpt: 低版本IE的bug和兼容性，点击空块级元素时
 
 LinkedHashMap根据变量`accessOrder`的值提供两种遍历顺序：
 
+    private final boolean accessOrder;
+
 1.`accessOrder = false`，按插入顺序遍历(默认情况);
 
 2.`accessOrder = true`，按LRU算法顺序遍历。
 
 LinkedHashMap继承自HashMap，通过覆盖HashMap的部分方法来实现顺序遍历。
 
-接下来依旧按照增删该查等方法来看LinkedHashMap的实现。
+接下来依旧按照增删该查等方面来看LinkedHashMap的实现。
 
 ##签名
 
@@ -228,7 +230,7 @@ LinkedHashMap覆盖了父类`transfer`的实现
 
 ##删除
 
-元素删除采用父类的逻辑，双向链表的删除通过`e.recordRemoval(this)`来实现，`recordRemoval`再HashMap.Entry中是空方法,再LinkedHashMap.Entry中提供了具体的实现
+元素删除采用父类的逻辑，双向链表的删除通过`e.recordRemoval(this)`来实现，`recordRemoval`在HashMap.Entry中是空方法,在LinkedHashMap.Entry中提供了具体的实现。
 
 
     public V remove(Object key) {
@@ -365,7 +367,7 @@ LinkedHashMap覆盖了父类containsValue的实现，通过遍历双向链表来
     }
 
 ##扩展
-[10行Java代码实现LRU缓存](/2015/12/20/hashmap/ "10行Java代码实现最近被使用（LRU）缓存")
+[10行Java代码实现LRU缓存](/2015/12/27/linkedhashmap-realise-LRU-cache/ "10行Java代码实现最近被使用（LRU）缓存")
 
 
 ##参考
