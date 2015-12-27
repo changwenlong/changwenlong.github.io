@@ -367,7 +367,14 @@ LinkedHashMap覆盖了父类containsValue的实现，通过遍历双向链表来
     }
 
 ##扩展
+
 [10行Java代码实现LRU缓存](/2015/12/27/linkedhashmap-realise-LRU-cache/ "10行Java代码实现最近被使用（LRU）缓存")
+
+##总结
+
+学习LinkedHashMap源码发现，一些逻辑已在父类HashMap留了钩子，在HashMap中不提供实现，而是到子类LinkedHashMap中才具体实现，像`put`方法中的`e.recordAccess(this)`，这也相当于是一种策略模式。
+
+学习源码的过程主要是为了一探究竟、加深理解，源码的设计融入了一些常用的设计模式，也是编码的一大启发，希望能吸收并应用到自己的编码中。
 
 
 ##参考
