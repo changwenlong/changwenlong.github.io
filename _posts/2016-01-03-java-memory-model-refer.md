@@ -73,3 +73,61 @@ JMM属于语言级的内存模型，它确保在不同的编译器和不同的�
 |---|---|
 |a = 1; //A1 <br> x = b; //A2|b = 2; //B1 <br> y = a; //B2|
 |初始状态：a = b = 0 <br> 处理器允许执行后得到结果：x = y = 0|
+
+假设处理器A和处理器B按程序的顺序并行执行内存访问，最终却可能得到x = y = 0的结果。具体的原因如下图所示：
+
+![jmmr-1-4]({{"/static/imgs/jmmr-1-4.png"}})
+
+这里处理器A和处理器B可以同时把共享变量写入自己的写缓冲区（A1，B1），然后从内存中读取另一个共享变量（A2，B2），最后才把自己写缓存区中保存的脏数据刷新到内存中（A3，B3）。当以这种时序执行时，程序就可以得到x = y = 0的结果。
+
+从内存操作实际发生的顺序来看，直到处理器A执行A3来刷新自己的写缓存区，写操作A1才算真正执行了。虽然处理器A执行内存操作的顺序为：A1->A2，但内存操作实际发生的顺序却是：A2->A1。此时，处理器A的内存操作顺序被重排序了（处理器B的情况和处理器A一样，这里就不赘述了）。
+
+这里的关键是，由于写缓冲区仅对自己的处理器可见，它会导致处理器执行内存操作的顺序可能会与内存实际的操作执行顺序不一致。由于现代的处理器都会使用写缓冲区，因此现代的处理器都会允许对写-读操做重排序。
+
+下面是常见处理器允许的重排序类型的列表：
+| |Load-Load| Load-Store| Store-Store| Store-Load| 数据依赖|
+|---|---|---|---|---|---| 
+|sparc-TSO| N| N| N| Y| N| 
+|x86 |N |N |N |Y |N |
+|ia64| Y| Y| Y| Y| N| 
+|PowerPC| Y| Y| Y| Y| N| 
+
+上表单元格中的“N”表示处理器不允许两个操作重排序，“Y”表示允许重排序。
+
+从上表我们可以看出：常见的处理器都允许Store-Load重排序；常见的处理器都不允许对存在数据依赖的操作做重排序。sparc-TSO和x86拥有相对较强的处理器内存模型，它们仅允许对写-读操作做重排序（因为它们都使用了写缓冲区）。
+
+> ※注1：sparc-TSO是指以TSO(Total Store Order)内存模型运行时，sparc处理器的特性。
+> 
+> ※注2：上表中的x86包括x64及AMD64。
+> 
+> ※注3：由于ARM处理器的内存模型与PowerPC处理器的内存模型非常类似，本文将忽略它。
+> 
+> ※注4：数据依赖性后文会专门说明。
+
+为了保证内存可见性，java编译器在生成指令序列的适当位置会插入内存屏障指令来禁止特定类型的处理器重排序。JMM把内存屏障指令分为下列四类：
+
+|屏障类型| 指令示例| 说明 |
+|---|---|---|
+|LoadLoad Barriers| Load1;<br> LoadLoad;<br> Load2 |确保Load1数据的装载，之前于Load2及所有后续装载指令的装载|
+|StoreStore Barriers| Store1;<br> StoreStore;<br> Store2| 确保Store1数据对其他处理器可见（刷新到内存），之前于Store2及所有后续存储指令的存储| 
+|LoadStore Barriers| Load1;<br> LoadStore;<br> Store2| 确保Load1数据装载，之前于Store2及所有后续的存储指令刷新到内存|
+|StoreLoad Barriers| Store1;<br> StoreLoad; <br>Load2| 确保Store1数据对其他处理器变得可见（指刷新到内存），之前于Load2及所有后续装载指令的装载。StoreLoad Barriers会使该屏障之前的所有内存访问指令（存储和装载指令）完成之后，才执行该屏障之后的内存访问指令|
+
+StoreLoad Barriers是一个“全能型”的屏障，它同时具有其他三个屏障的效果。现代的多处理器大都支持该屏障（其他类型的屏障不一定被所有处理器支持）。执行该屏障开销会很昂贵，因为当前处理器通常要把写缓冲区中的数据全部刷新到内存中（buffer fully flush）。
+
+##happens-before
+
+从JDK5开始，java使用新的JSR -133内存模型（本文除非特别说明，针对的都是JSR- 133内存模型）。JSR-133提出了happens-before的概念，通过这个概念来阐述操作之间的内存可见性。如果一个操作执行的结果需要对另一个操作可见，那么这两个操作之间必须存在happens-before关系。这里提到的两个操作既可以是在一个线程之内，也可以是在不同线程之间。 与程序员密切相关的happens-before规则如下：
+
+- 程序顺序规则：一个线程中的每个操作，happens- before 于该线程中的任意后续操作。 
+- 监视器锁规则：对一个监视器锁的解锁，happens- before 于随后对这个监视器锁的加锁。 
+- volatile变量规则：对一个volatile域的写，happens- before 于任意后续对这个volatile域的读。 
+- 传递性：如果A happens- before B，且B happens- before C，那么A happens- before C。
+
+注意，两个操作之间具有happens-before关系，并不意味着前一个操作必须要在后一个操作之前执行！happens-before仅仅要求前一个操作（执行的结果）对后一个操作可见，且前一个操作按顺序排在第二个操作之前（the first is visible to and ordered before the second）。happens- before的定义很微妙，后文会具体说明happens-before为什么要这么定义。
+
+happens-before与JMM的关系如下图所示：
+
+![jmmr-1-5]({{"/static/imgs/jmmr-1-5.png"}})
+
+如上图所示，一个happens-before规则通常对应于多个编译器重排序规则和处理器重排序规则。对于java程序员来说，happens-before规则简单易懂，它避免程序员为了理解JMM提供的内存可见性保证而去学习复杂的重排序规则以及这些规则的具体实现。
