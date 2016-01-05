@@ -93,7 +93,7 @@ JVM的垃圾回收主要就是作用于Java堆。
 > 
 > java堆、方法区内存不足时，则抛出`OutOfMemoryError`。
 
-[通过实例学习StackOverFlowError和OutOfMemoryError](/2016/01/06/StackOverFlowError-OutOfMemoryError "StackOverFlowError & OutOfMemoryError") 将通过具体示例展现这些Error。
+[通过示例学习StackOverFlowError和OutOfMemoryError](/2016/01/06/StackOverFlowError-OutOfMemoryError "StackOverFlowError & OutOfMemoryError") 将通过具体示例展现这些Error。
 
 
 ##参考
