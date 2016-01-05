@@ -89,12 +89,11 @@ JVM的垃圾回收主要就是作用于Java堆。
 在使用某些区域时，有时会遇到`OutOfMemoryError`与`StackOverflowError`这样的error。
 
 
-
 > 如：java虚拟机栈、本地方法栈内存不足时，抛出`StackOverflowError`；
 > 
 > java堆、方法区内存不足时，则抛出`OutOfMemoryError`。
 
-[实例展示运行时方法各区域的StackOverFlowError和OutOfMemoryError](/2016/01/06/StackOverFlowError-OutOfMemoryError "StackOverFlowError & OutOfMemoryError") 将具体通过示例展现这些Error。
+[通过实例学习StackOverFlowError和OutOfMemoryError](/2016/01/06/StackOverFlowError-OutOfMemoryError "StackOverFlowError & OutOfMemoryError") 将通过具体示例展现这些Error。
 
 
 ##参考
