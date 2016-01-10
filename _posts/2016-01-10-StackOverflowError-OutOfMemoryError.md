@@ -13,7 +13,7 @@ excerpt: 低版本IE的bug和兼容性，点击空块级元素时
 
 ##介绍
 
-`StackOverflow`和`OutOfMemoryError`均继承自`VirtualMachineError`,是虚拟机层面的error,java应用运行时，[JVM运行时数据区](/2016/01/05/jvm/runtime/data/area "JVM运行时数据区")不同区域可能出现这两类error，下面通过示例来观察。
+`StackOverflow`和`OutOfMemoryError`均继承自`VirtualMachineError`，是虚拟机层面的error，java应用运行时，[JVM运行时数据区](/2016/01/05/jvm-runtime-data-area "JVM运行时数据区")不同区域可能出现这两类error，下面通过示例来观察。
 
 
 ##Java虚拟机栈溢出
@@ -65,7 +65,7 @@ excerpt: 低版本IE的bug和兼容性，点击空块级元素时
          */
         public static void main(String[] args) {        
             try {
-                //在队中创建大小为21M的byte数组
+                //在堆中创建大小为21M的byte数组
                 byte[] b1 = new byte[1024*1024*21];
             } catch (Throwable e) {
                 e.printStackTrace();
@@ -96,7 +96,7 @@ excerpt: 低版本IE的bug和兼容性，点击空块级元素时
             try {
                 // 使用List保持着常量池引用，避免GC回收常量池行为
                 List<String> list = new ArrayList<String>();
-                // 2MB的PermSize在integer范围内足够产生OOM了
+                // 10MB的PermSize在integer范围内足够产生OOM了
                 int i = 0;
                 while (true) {
                     list.add(String.valueOf(i++).intern());
