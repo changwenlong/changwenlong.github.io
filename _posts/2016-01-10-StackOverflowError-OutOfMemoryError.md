@@ -82,7 +82,7 @@ excerpt: 低版本IE的bug和兼容性，点击空块级元素时
 
 ##运行时常量池溢出
 
-运行时常量池是方法区的一部分，受到方法区内存的限制，当常量池无法再申请到内存时会抛出`OutOfMemoryError`异常。
+java 7之前运行时常量池是方法区的一部分，受到方法区内存的限制；从java 7开始，运行时常量池被迁移到java堆中，受到java堆内存的限制。当常量池无法再申请到内存时会抛出`OutOfMemoryError`异常。
 
 > 将Integer范围内的字符串写入运行时常量池
 
@@ -131,6 +131,46 @@ excerpt: 低版本IE的bug和兼容性，点击空块级元素时
         Exception in thread "main" java.lang.OutOfMemoryError: Java heap space
            at edu.zju.chwl.jvm.RuntimeConstantPool.main(RuntimeConstantPool.java:19)
 
+##方法区溢出
+
+借助CGLib直接操作字节码运行时生成了大量的动态类。
+
+值得特别注意的是，我们在这个例子中模拟的场景并非纯粹是一个实验，这样的应用经常会出现在实际应用中：当前的很多主流框架，如Spring、Hibernate，在对类进行增强时，都会使用到CGLib这类字节码技术，增强的类越多，就需要越大的方法区来保证动态生成的Class可以加载入内存。另外，JVM上的动态语言（例如Groovy等）通常都会持续创建类来实现语言的动态性，随着这类语言的流行，也越来越容易遇到与以下代码相似的溢出场景。
+
+    /**
+     * JVM参数： -XX:PermSize=10M -XX:MaxPermSize=10M
+     */
+    public class JavaMethodAreaOOM {    
+        public static void main(String[] args) {
+            while (true) {
+                Enhancer enhancer = new Enhancer();
+                enhancer.setSuperclass(OOMObject.class);
+                enhancer.setUseCache(false);
+                enhancer.setCallback(new MethodInterceptor() {
+                    @Override
+                    public Object intercept(Object obj, Method method,
+                            Object[] args, MethodProxy proxy) throws Throwable {
+                        return proxy.invokeSuper(obj, args);
+                    }
+                });
+                enhancer.create();
+            }
+        }    
+        static class OOMObject {
+    
+        }
+    }
+
+> JVM参数： -XX:PermSize=10M -XX:MaxPermSize=10M，输出：
+
+    Caused by: java.lang.OutOfMemoryError: PermGen space  
+    at java.lang.ClassLoader.defineClass1(Native Method)  
+    at java.lang.ClassLoader.defineClassCond(ClassLoader.java:632)  
+    at java.lang.ClassLoader.defineClass(ClassLoader.java:616)  
+    ... 8 more 
+
+方法区溢出也是一种常见的内存溢出异常，一个类要被垃圾收集器回收掉，判定条件是比较苛刻的。在经常动态生成大量Class的应用中，需要特别注意类的回收状况。这类场景除了上面提到的程序使用了CGLib字节码增强和动态语言之外，常见的还有：大量JSP或动态产生JSP文件的应用（JSP第一次运行时需要编译为Java类）、基于OSGi的应用（即使是同一个类文件，被不同的加载器加载也会视为不同的类）等。
+
 ##直接内存溢出
 
 DirectMemorySize可以通过设置 -XX:MaxDirectMemorySize参数指定容量大小，如果不指定的话，那么就跟堆的最大值一致。
@@ -161,7 +201,7 @@ DirectMemorySize可以通过设置 -XX:MaxDirectMemorySize参数指定容量大�
 
 ##总结
 
-通过以上示例的学习，对jvm运行时常量池有了更进一步的认识，示例中使用了一些jvm参数配置来限制各区域的大小，便于尽快出现溢出error。[通过示例观察jvm垃圾回收及jvm参数讲解](/2016/01/11/jvm-gc-arguments "jvm arguments") 将具体介绍java虚拟机参数。
+通过以上示例的学习，对jvm运行时常量池有了更进一步的认识，示例中使用了一些java堆参数的配置来限制各区域的大小，便于尽快出现溢出error。[通过示例观察jvm垃圾回收及java堆参数总结](/2016/01/11/jvm-gc-and-java-heap-arguments "jvm gc& java heap arguments") 将具体介绍java虚拟机参数。
 
 
 ##参考
