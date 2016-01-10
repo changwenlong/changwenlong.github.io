@@ -79,10 +79,34 @@ JVM的垃圾回收主要就是作用于Java堆。
 
 ###运行时常量池
 
-运行时常量池是类和接口运行时的常量池表，它在字节码文件里。它包含几类常量。 在编译时期识别的数值常量，在运行时识别的方法或引用字段。运行时常量池类似于传统语言的字符表，但它比传统字符表所存储的范围更广。每一个运行时常量池从方法区分配内存。当类和接口被JVM创建时相应的常量池也被创建。
+运行时常量池（Runtime Constant Pool）是方法区的一部分。Class文件中除了有类的版本、字段、方法、接口等描述信息外，还有一项信息是常量池（Constant Pool Table），用于存放编译期生成的各种字面量和符号引用，这部分内容将在类加载后进入方法区的运行时常量池中存放。
 
-运行区常量池包括以下异常：
-当类和接口创建时，如果运行区常量池所需内存不足，则抛出`OutOfMemoryError`。
+Java虚拟机对Class文件每一部分（自然也包括常量池）的格式都有严格规定，每一个字节用于存储哪种数据都必须符合规范上的要求才会被虚拟机认可、装载和执行，但对于运行时常量池，Java虚拟机规范没有做任何细节的要求，不同的提供商实现的虚拟机可以按照自己的需要来实现这个内存区域。不过，一般来说，除了保存Class文件中描述的符号引用外，还会把翻译出来的直接引用也存储在运行时常量池中。
+
+运行时常量池相对于Class文件常量池的另外一个重要特征是具备动态性，Java语言并不要求常量一定只有编译期才能产生，也就是并非预置入Class文件中常量池的内容才能进入方法区运行时常量池，运行期间也可能将新的常量放入池中，这种特性被开发人员利用得比较多的便是String类的intern()方法。
+
+既然运行时常量池是方法区的一部分，自然受到方法区内存的限制，当常量池无法再申请到内存时会抛出`OutOfMemoryError`异常。
+
+> 关于字面量
+
+    //此处的1被称为字面量，Integer引用的字面量在-128~127之间时，不会new新的Integer对象，而是直接去常量池取
+    Integer a = 1;
+    Integer b = 1;
+    System.out.println(a==b);
+    
+    //String引用指向的abc为字面量，存放在常量池中
+    String str1 = "abc";
+    String str2 = "abc";
+    System.out.println(str1==str2);
+    //new方法在java堆上创建了字符串，intern方法会将字符串拷贝至常量池并返回
+    String str3 = new String("abc").intern();
+    System.out.println(str1==str3);
+
+    //输出为 true true true
+
+##直接内存
+
+Direct Memory并不是虚拟机运行时数据区的一部分，也不是Java虚拟机规范中定义的内存区域，但是这部分也是频繁使用。在Java的NIO中使用到，服务器管理员忽略直接内存后果是，各个内存区域总和大于物理内存限制，从而导致动态扩展时出现OutOfMemoryError异常。
 
 ##总结
 
@@ -93,11 +117,13 @@ JVM的垃圾回收主要就是作用于Java堆。
 > 
 > java堆、方法区内存不足时，则抛出`OutOfMemoryError`。
 
-[通过示例学习StackOverFlowError和OutOfMemoryError](/2016/01/06/StackOverFlowError-OutOfMemoryError "StackOverFlowError & OutOfMemoryError") 将通过具体示例展现这些Error。
+[通过示例学习StackOverflowError和OutOfMemoryError](/2016/01/10/StackOverflowError-OutOfMemoryError "StackOverflowError & OutOfMemoryError") 将通过具体示例展现这些Error。
 
 
 ##参考
+
+[深入理解Java虚拟机（第2版）](http://book.douban.com/subject/24722612/ "深入理解Java虚拟机（第2版）")
+
 [JVM 数据存储介绍及性能优化](http://www.ibm.com/developerworks/cn/java/j-lo-JVM-Optimize/index.html "JVM 数据存储介绍及性能优化")
 
-[http://ifeve.com/jvm-runtime-data/](http://ifeve.com/jvm-runtime-data/ "JVM运行时数据区")
 
