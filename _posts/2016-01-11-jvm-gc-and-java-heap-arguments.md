@@ -15,7 +15,7 @@ excerpt: 低版本IE的bug和兼容性，点击空块级元素时
 
 ###介绍
 
-jvm垃圾回收包括Minor GC和Full GC。Minor GC用来回收年轻代中的垃圾，new对象时发现eden区空间不足，就可能触发Minor GC回收年轻代（根据不同的GC算法来定，有时候会直接在老年代new对象）；Full GC用来回收整个java堆以及方法区中的垃圾。
+jvm垃圾回收包括Minor GC和Full GC。Minor GC用来回收年轻代中的垃圾，new对象时发现eden区空间不足，就可能触发Minor GC回收年轻代（有时大对象会直接进入老年代）；Full GC用来回收整个java堆以及方法区中的垃圾。
 
 
 ###GC示例
@@ -35,7 +35,7 @@ jvm垃圾回收包括Minor GC和Full GC。Minor GC用来回收年轻代中的垃
             //创建对象b3,需要8M的内存空间，eden区所剩区间<=16M-0.5M-8M=7.5M,空间不足，b3对象直接创建在老年代
             byte[] b3 = new byte[1024 * 1024 * 8];
             b3 = null;
-            //创建对象b3,需要16M的内存空间，此时eden区所剩
+            //创建对象b4,需要16M的内存空间，此时eden区，老年代空间均不足
             byte[] b4 = new byte[1024 * 1024 * 16];// Minor GC + Full GC
         }
     }

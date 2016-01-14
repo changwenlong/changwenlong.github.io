@@ -10,6 +10,23 @@ excerpt: 低版本IE的bug和兼容性，点击空块级元素时
 * content
 {:toc}
 
+##介绍
+
+1.String与Date互转，SimpleDateFormat;
+
+2.Date设置Calendar，`calendar.setTime(Date) `;
+
+3.Calendar实例获取Date,`calendar.getTime()`;
+
+4.Calendar实例获取年、月、日；
+
+5.年、月、日设置Calendar，`calendar.set(year, month, day)`;
+
+6.Calendar实例获取月份的的最后一天，`calendar.getActualMaximum(Calendar.DAY_OF_MONTH)`;
+
+7.Date对象大小比较，`date.before(Date)`，`date.after(Date)`.
+
+
 ##代码
 
     package edu.zju.chwl.util;
