@@ -16,7 +16,7 @@ java8之前的日期操作经常接触的几个类，`java.util.Date`，`java.ut
 
 ##日期的获取与设置
 
-###Calendar对象的获取:
+###Calendar对象的获取
 
     //获取当前时刻
     Calendar now = Calendar.getInstance();
@@ -25,7 +25,7 @@ java8之前的日期操作经常接触的几个类，`java.util.Date`，`java.ut
     //获取子类的实例
     Calendar now = new GregorianCalendar();
 
-###通过Calendar实例获取各种时间数据：
+###通过Calendar实例获取各种时间数据
 
     int year = now.get(Calendar.YEAR); //2016，当前年份
     int month = now.get(Calendar.MONTH) + 1; //1，当前月，注意加 1
