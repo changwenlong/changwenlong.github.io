@@ -2,8 +2,8 @@
 layout: post
 title:  "【转】java日期处理"
 date:   2016-01-14
-author:  changwl
-categories: 备忘
+author:  
+categories: java
 excerpt: 低版本IE的bug和兼容性，点击空块级元素时
 ---
 

@@ -2,7 +2,7 @@
 layout: post
 title:  "【转】java内存模型"
 date:   2016-01-03
-author: Changwl
+author: 
 categories: java
 excerpt: 低版本IE的bug和兼容性，点击空块级元素时
 ---
