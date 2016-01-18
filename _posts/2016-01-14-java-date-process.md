@@ -122,21 +122,20 @@ Calendar是可变的，提供`set`方法来设置日期对象：
 1. 使用`Date`的`after`，`before`方法
 2. 使用`Date`的`compareTo`方法
 
-
-    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-    String dateString_01 = "2016-01-01 11:11:11";
-    String dateString_02 = "2016-01-02 11:11:11";
-    try {
-        Date date_01 = sdf.parse(dateString_01);
-        Date date_02 = sdf.parse(dateString_02);
-        System.out.println(date_01.before(date_02)); // true
-        System.out.println(date_02.after(date_01)); // true
-        System.out.println(date_01.compareTo(date_02)); // -1
-        System.out.println(date_02.compareTo(date_01)); // 1
-        System.out.println(date_02.compareTo(date_02)); // 0
-    } catch (ParseException e) {
-        e.printStackTrace();
-    }
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String dateString_01 = "2016-01-01 11:11:11";
+        String dateString_02 = "2016-01-02 11:11:11";
+        try {
+            Date date_01 = sdf.parse(dateString_01);
+            Date date_02 = sdf.parse(dateString_02);
+            System.out.println(date_01.before(date_02)); // true
+            System.out.println(date_02.after(date_01)); // true
+            System.out.println(date_01.compareTo(date_02)); // -1
+            System.out.println(date_02.compareTo(date_01)); // 1
+            System.out.println(date_02.compareTo(date_02)); // 0
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
 
 ##工具库推荐
 
