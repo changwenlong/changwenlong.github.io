@@ -68,17 +68,17 @@ Calendar是可变的，提供`set`方法来设置日期对象：
 
 借助`SimpleDateFormat`，实现`Date`与`String`之间的转化：
 
-       SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        try { // 日期转字符串
-            Calendar calendar = Calendar.getInstance();
-            Date date = calendar.getTime();
-            String dateStringParse = sdf.format(date);
-            // 字符串转日期
-            String dateString = "2016-01-01 11:11:11";
-            Date dateParse = sdf.parse(dateString);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
+   SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    try { // 日期转字符串
+        Calendar calendar = Calendar.getInstance();
+        Date date = calendar.getTime();
+        String dateStringParse = sdf.format(date);
+        // 字符串转日期
+        String dateString = "2016-01-01 11:11:11";
+        Date dateParse = sdf.parse(dateString);
+    } catch (ParseException e) {
+        e.printStackTrace();
+    }
 
 
 注意：
