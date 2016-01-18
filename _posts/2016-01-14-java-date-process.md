@@ -1,8 +1,8 @@
 ---
 layout: post
-title:  "java 日期处理"
+title:  "【转】java日期处理"
 date:   2016-01-14
-author: 转
+author:  changwl
 categories: 备忘
 excerpt: 低版本IE的bug和兼容性，点击空块级元素时
 ---
@@ -140,6 +140,9 @@ Calendar是可变的，提供`set`方法来设置日期对象：
 ##工具库推荐
 
 Joda-Time，已纳入java8。
+强烈建议使用。
+
+[Joda-Time 简介](http://h819.iteye.com/blog/611099 "Joda-Time 简介")
 
 ##转自
 

@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "java内存模型"
+title:  "【转】java内存模型"
 date:   2016-01-03
 author: Changwl
 categories: java
@@ -133,6 +133,6 @@ happens-before与JMM的关系如下图所示：
 
 如上图所示，一个happens-before规则通常对应于多个编译器重排序规则和处理器重排序规则。对于java程序员来说，happens-before规则简单易懂，它避免程序员为了理解JMM提供的内存可见性保证而去学习复杂的重排序规则以及这些规则的具体实现。
 
-##参考
+##转自
 
 [程晓明](http://www.infoq.com/cn/author/%E7%A8%8B%E6%99%93%E6%98%8E "程晓明")
