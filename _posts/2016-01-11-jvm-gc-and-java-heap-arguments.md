@@ -11,14 +11,14 @@ excerpt: 低版本IE的bug和兼容性，点击空块级元素时
 {:toc}
 
 
-##jvm垃圾回收
+## jvm垃圾回收
 
-###介绍
+### 介绍
 
 jvm垃圾回收包括Minor GC和Full GC。Minor GC用来回收年轻代中的垃圾，new对象时发现eden区空间不足，就可能触发Minor GC回收年轻代（有时大对象会直接进入老年代）；Full GC用来回收整个java堆以及方法区中的垃圾。
 
 
-###GC示例
+### GC示例
 
 示例代码如下：
 
@@ -55,7 +55,7 @@ jvm垃圾回收包括Minor GC和Full GC。Minor GC用来回收年轻代中的垃
      PSPermGen       total 21504K, used 2520K [0x00000000f8600000, 0x00000000f9b00000, 0x00000000fd800000)
       object space 21504K, 11% used [0x00000000f8600000,0x00000000f8876168,0x00000000f9b00000)
 
-###分析
+### 分析
 
 >JVM参数分析：
 >
@@ -77,7 +77,7 @@ jvm垃圾回收包括Minor GC和Full GC。Minor GC用来回收年轻代中的垃
 
 > *注：分析GC时没有结合jvm的垃圾GC算法进行分析，分析可能不太准确。后续笔记会对GC算法进行总结。
 
-##java堆参数总结
+## java堆参数总结
 
 Java 堆操作是主要的数据存储操作，总结的主要参数配置如下。
 
@@ -99,7 +99,7 @@ Java 堆操作是主要的数据存储操作，总结的主要参数配置如下
 
 > *注：记得后续跟进补充。
 
-##参考
+## 参考
 
 [Java Major and Minor Garbage Collections](http://stackoverflow.com/questions/16549066/java-major-and-minor-garbage-collections "Java Major and Minor Garbage Collections")
 

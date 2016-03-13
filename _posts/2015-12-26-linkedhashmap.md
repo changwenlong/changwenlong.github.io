@@ -10,14 +10,14 @@ excerpt: 低版本IE的bug和兼容性，点击空块级元素时
 * content
 {:toc}
 
-##环境
+## 环境
     
     C:\Users\chwl>java -version
     java version "1.7.0_51"
     Java(TM) SE Runtime Environment (build 1.7.0_51-b13)
     Java HotSpot(TM) 64-Bit Server VM (build 24.51-b03, mixed mode)
 
-##介绍
+## 介绍
 
 了解了HashMap的工作原理后，理解LinkedHashMap就简单多了，HashMap底层的数据结构采用哈希表，LinkedHashMap在此基础上加上了循环双向链表的数据结构，存储节点上多加了两个指针before，after。
 
@@ -78,13 +78,13 @@ LinkedHashMap继承自HashMap，通过覆盖HashMap的部分方法来实现顺�
 
 接下来依旧按照增删该查等方面来看LinkedHashMap的实现。
 
-##签名
+## 签名
 
     public class LinkedHashMap<K,V>
         extends HashMap<K,V>
         implements Map<K,V>
 
-##创建LinkedHashMap
+## 创建LinkedHashMap
 
 1.构造函数
 
@@ -118,7 +118,7 @@ LinkedHashMap继承自HashMap，通过覆盖HashMap的部分方法来实现顺�
     }
 
 
-##新增与修改
+## 新增与修改
 
 LinkedHashMap对元素进行新增与修改时，不仅要维护哈希表`table`，还要维护循环双向链表`header`
 
@@ -228,7 +228,7 @@ LinkedHashMap覆盖了父类`transfer`的实现
     }
 
 
-##删除
+## 删除
 
 元素删除采用父类的逻辑，双向链表的删除通过`e.recordRemoval(this)`来实现，`recordRemoval`在HashMap.Entry中是空方法,在LinkedHashMap.Entry中提供了具体的实现。
 
@@ -271,7 +271,7 @@ LinkedHashMap覆盖了父类`transfer`的实现
 
 
 
-##查找
+## 查找
 
 使用哈希表实现查找，效率高。
 
@@ -286,7 +286,7 @@ LinkedHashMap覆盖了父类`transfer`的实现
         return e.value;
     }
 
-##LinkedHashIterator
+## LinkedHashIterator
 
 LinkedHashMap提供的顺序访问就是通过LinkedHashIterator实现。
 
@@ -339,7 +339,7 @@ LinkedHashMap提供三种集合视角，LinkedHashIterator。
         public Map.Entry<K,V> next() { return nextEntry(); }
     }
 
-##`containsValue`
+## `containsValue`
 
 LinkedHashMap覆盖了父类containsValue的实现，通过遍历双向链表来实现跟高效的访问。
     
@@ -357,7 +357,7 @@ LinkedHashMap覆盖了父类containsValue的实现，通过遍历双向链表来
         return false;
     }
 
-##`removeEldestEntry`
+## `removeEldestEntry`
 
 `removeEldestEntry`定义什么时候删除最老的元素，在`addEntry`中被调用
 
@@ -366,17 +366,17 @@ LinkedHashMap覆盖了父类containsValue的实现，通过遍历双向链表来
         return false;
     }
 
-##扩展
+## 扩展
 
 [10行Java代码实现LRU缓存](/2015/12/27/linkedhashmap-realise-LRU-cache/ "10行Java代码实现最近被使用（LRU）缓存")
 
-##总结
+## 总结
 
 学习LinkedHashMap源码发现，一些逻辑已在父类HashMap留了钩子，在HashMap中不提供实现，而是到子类LinkedHashMap中才具体实现，像`put`方法中的`e.recordAccess(this)`，这也相当于是一种策略模式。
 
 学习源码的过程主要是为了一探究竟、加深理解，源码的设计融入了一些常用的设计模式，也是编码的一大启发，希望能吸收并应用到自己的编码中。
 
 
-##参考
+## 参考
 [Java LinkedHashMap源码解析](http://liujiacai.net/blog/2015/09/12/java-linkedhashmap/ "Java LinkedHashMap源码解析")
 

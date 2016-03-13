@@ -11,13 +11,13 @@ excerpt: 低版本IE的bug和兼容性，点击空块级元素时
 {:toc}
 
 
-##介绍
+## 介绍
 
 阅读了[LinkedHashMap](/2015/12/26/linkedhashmap "LinkedHashMap")源码之后，发现LinkedHashMap隐藏实现了LRU算法，本文就是用LinkedHashMap来实现LRU缓存。
 
 LRU-Least Recently Used 近期最少使用算法。
 
-##实现
+## 实现
 
 直接上实现。
 
@@ -41,7 +41,7 @@ LRU-Least Recently Used 近期最少使用算法。
 
 
 
-##参考
+## 参考
 [10行Java代码实现最近被使用（LRU）缓存](http://www.importnew.com/16264.html "Java 10行Java代码实现最近被使用（LRU）缓存")
 
 [LRU](https://en.wikipedia.org/wiki/LRU "LRU")

@@ -100,7 +100,7 @@ watch为了检测文件夹内的变化，即修改后不需要重新启动jekyll
 
 ---
 
-##后续 
+## 后续 
 
 *  整个安装过程参考了jekyll官网，注意jekyll还有一个简体中文官网，不过比较坑（我就被坑了），有些内容没有翻译过来，有可能会走弯路，建议如果想看中文的相关资料，也要中英对照着阅读。[jekyll中文网 http://jekyllcn.com](http://jekyllcn.com), [jekyll英文网 http://jekyllrb.com](http://jekyllrb.com)
 *  jekyll中的css是用sass写的，当然直接在`_sass/_layout.scss`中添加css也是可以的。

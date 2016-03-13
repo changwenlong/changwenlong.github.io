@@ -10,13 +10,13 @@ excerpt: 低版本IE的bug和兼容性，点击空块级元素时
 * content
 {:toc}
 
-##介绍
+## 介绍
 
 java8之前的日期操作经常接触的几个类，`java.util.Date`，`java.util.Calendar`，`java.text.SimpleDateFormat`，以下将记录使用方法。
 
-##日期的获取与设置
+## 日期的获取与设置
 
-###Calendar对象的获取
+### Calendar对象的获取
 
     //获取当前时刻
     Calendar now = Calendar.getInstance();
@@ -25,7 +25,7 @@ java8之前的日期操作经常接触的几个类，`java.util.Date`，`java.ut
     //获取子类的实例
     Calendar now = new GregorianCalendar();
 
-###通过Calendar实例获取各种时间数据
+### 通过Calendar实例获取各种时间数据
 
     int year = now.get(Calendar.YEAR); //2016，当前年份
     int month = now.get(Calendar.MONTH) + 1; //1，当前月，注意加 1
@@ -43,7 +43,7 @@ java8之前的日期操作经常接触的几个类，`java.util.Date`，`java.ut
 - Calendar.SECOND：秒
 - Calendar.DAY_OF_WEEK：周几
 
-###设置日期对象
+### 设置日期对象
 
 Calendar是可变的，提供`set`方法来设置日期对象：
 
@@ -64,7 +64,7 @@ Calendar是可变的，提供`set`方法来设置日期对象：
 - 获得的月份加 1 才是实际月份。
 - 在 Calendar 类中，周日是 1，周一是 2，以此类推。
 
-##日期转化
+## 日期转化
 
 借助`SimpleDateFormat`，实现`Date`与`String`之间的转化：
 
@@ -86,7 +86,7 @@ Calendar是可变的，提供`set`方法来设置日期对象：
 - 创建 SimpleDateFormat 对象时必须指定转换格式。
 - 转换格式区分大小写，yyyy 代表年份，MM 代表月份，dd 代表日期，HH 代表 24 进制的小时，hh 代表 12 进制的小时，mm 代表分钟，ss 代表秒。
 
-##日期加减
+## 日期加减
 
     //根据现在时间计算
     Calendar now = Calendar.getInstance();  
@@ -100,7 +100,7 @@ Calendar是可变的，提供`set`方法来设置日期对象：
 
 > 注意使用了`Calendar`对象的`add`方法，可以更改`Calendar.YEAR`为任意时间单位字段，完成各种时间单位下的日期计算。
 
-###计算时间差
+### 计算时间差
 
     SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     String dateString = "2016-01-01 11:11:11";
@@ -114,7 +114,7 @@ Calendar是可变的，提供`set`方法来设置日期对象：
         e.printStackTrace();
     }
 
-##日期比较
+## 日期比较
 
 有两种方法实现日期比较：
 
@@ -137,13 +137,13 @@ Calendar是可变的，提供`set`方法来设置日期对象：
             e.printStackTrace();
         }
 
-##工具库推荐
+## 工具库推荐
 
 Joda-Time，已纳入java8。
 强烈建议使用。
 
 [Joda-Time 简介](http://h819.iteye.com/blog/611099 "Joda-Time 简介")
 
-##转自
+## 转自
 
 [聊聊 Java 中日期的几种常见操作 —— 取值、转换、加减、比较](http://www.kuqin.com/shuoit/20151231/349758.html?url_type=39&object_type=webpage&pos=1 "聊聊 Java 中日期的几种常见操作 —— 取值、转换、加减、比较")
