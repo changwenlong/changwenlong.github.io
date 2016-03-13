@@ -11,7 +11,7 @@ icon: glyphicon-heart
 
 ### 联系我
 
-* email：[786320366@qq.com](mailto:{{ site.email }})
+* email：[changwl@zju.edu.cn](mailto:{{ site.email }})
 * QQ：786320366
 * Weibo：[chwl1991](http://weibo.com/u/1999902221)
 
