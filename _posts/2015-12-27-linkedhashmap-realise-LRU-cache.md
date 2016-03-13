@@ -32,9 +32,9 @@ LRU-Least Recently Used 近期最少使用算法。
         }
     
         //限制缓存的大小
-        @Override
+        @override
         protected boolean removeEldestEntry(Map.Entry<K,V> eldest) {
-            return size() > cacheSize;
+            return size > cacheSize;
         }
     
     }
