@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "二叉查找"
+title:  "二分查找"
 date:   2016-03-31
 author:  
 categories: 算法编程
