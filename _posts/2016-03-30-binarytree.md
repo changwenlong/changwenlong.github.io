@@ -21,13 +21,13 @@ excerpt: 低版本IE的bug和兼容性，点击空块级元素时
 ## 数据结构
 
     public class TreeNode {
-    	public int val;
-    	public TreeNode left;
-    	public TreeNode right;
+        public int val;
+        public TreeNode left;
+        public TreeNode right;
     
-    	public TreeNode(int x) {
-    		val = x;
-    	}
+        public TreeNode(int x) {
+            val = x;
+        }
     }
 
 ## 常见算法
@@ -43,85 +43,85 @@ excerpt: 低版本IE的bug和兼容性，点击空块级元素时
 ### 二叉树的前序、中序和后序遍历（递归实现）
 
     //递归实现
-	public void order(TreeNode root,List<Integer> list){
-		if(root==null){
-			return list;
-		}
-		list.add(root.val);//前序遍历
-		preOrder1(root.left,list);
+    public void order(TreeNode root,List<Integer> list){
+        if(root==null){
+            return list;
+        }
+        list.add(root.val);//前序遍历
+        preOrder1(root.left,list);
         //list.add(root.val);//中序遍历
-		preOrder1(root.right,list);
-        //list.add(root.val);//后序遍历	
-	}
+        preOrder1(root.right,list);
+        //list.add(root.val);//后序遍历    
+    }
 
     //非递归实现，前序遍历
     public static ArrayList<Integer> preorder(TreeNode root) {
-		ArrayList<Integer> list = new ArrayList<Integer>();
-		if (root == null) {
-			return list;
-		}
-		Stack<TreeNode> stack = new Stack<TreeNode>();
-		while (!stack.isEmpty()||root!=null) {
-			while (root != null) {
-				list.add(root.val);
-				stack.add(root);
-				root = root.left;
-			}
-		 	if(!stack.isEmpty()){
-		 		TreeNode node = stack.pop();
-    			root = node.right;    	
-        	}
-		}
-		return list;
-	}
+        ArrayList<Integer> list = new ArrayList<Integer>();
+        if (root == null) {
+            return list;
+        }
+        Stack<TreeNode> stack = new Stack<TreeNode>();
+        while (!stack.isEmpty()||root!=null) {
+            while (root != null) {
+                list.add(root.val);
+                stack.add(root);
+                root = root.left;
+            }
+             if(!stack.isEmpty()){
+                 TreeNode node = stack.pop();
+                root = node.right;        
+            }
+        }
+        return list;
+    }
     
     //非递归实现，中序遍历
     public static ArrayList<Integer> inorder(TreeNode root) {
-		ArrayList<Integer> list = new ArrayList<Integer>();
-		if (root == null) {
-			return list;
-		}
-		Stack<TreeNode> stack = new Stack<TreeNode>();
-		while (!stack.isEmpty()||root!=null) {
-			while (root != null) {
-				stack.add(root);
-				root = root.left;
-			}
-		 	if(!stack.isEmpty()){
-		 		TreeNode node = stack.pop();
-				list.add(node.val);
-    			root = node.right;    	
-        	}
-		}
-		return list;
-	}
+        ArrayList<Integer> list = new ArrayList<Integer>();
+        if (root == null) {
+            return list;
+        }
+        Stack<TreeNode> stack = new Stack<TreeNode>();
+        while (!stack.isEmpty()||root!=null) {
+            while (root != null) {
+                stack.add(root);
+                root = root.left;
+            }
+             if(!stack.isEmpty()){
+                 TreeNode node = stack.pop();
+                list.add(node.val);
+                root = node.right;        
+            }
+        }
+        return list;
+    }
 
-	//非递归实现，后序遍历
+    //非递归实现，后序遍历
     public static ArrayList<Integer> postorder(TreeNode root) {
-		ArrayList<Integer> list = new ArrayList<Integer>();
-		if (root == null) {
-			return list;
-		}
-		Stack<TreeNode> stack = new Stack<TreeNode>();		
-		TreeNode lastVisited = null;
-		while (!stack.isEmpty()||root!=null) {
-			while (root != null) {
-				stack.add(root);
-				root = root.left;
-			}
-		 	if(!stack.isEmpty()){
-		 		TreeNode node = stack.peek();
-				TreeNode right = node.right;
-        		if (right == null || right == lastVisited) {
-    				list.add(stack.pop().val);
-    				lastVisited = node;
-    			}else{
-    				root = node.right;    				
-    			}
-        	}
-		}
-		return list;
-	}
+        ArrayList<Integer> list = new ArrayList<Integer>();
+        if (root == null) {
+            return list;
+        }
+        Stack<TreeNode> stack = new Stack<TreeNode>();        
+        TreeNode lastVisited = null;
+        while (!stack.isEmpty()||root!=null) {
+            while (root != null) {
+                stack.add(root);
+                root = root.left;
+            }
+             if(!stack.isEmpty()){
+                 TreeNode node = stack.peek();
+                TreeNode right = node.right;
+                if (right == null || right == lastVisited) {
+                    list.add(stack.pop().val);
+                    lastVisited = node;
+                }else{
+                    root = node.right;                    
+                }
+            }
+        }
+        return list;
+    }
 
 ### 二叉树的层次遍历
 
@@ -129,43 +129,43 @@ excerpt: 低版本IE的bug和兼容性，点击空块级元素时
     public List<Integer> levelOrder(TreeNode root) {
         List<Integer> list = new ArrayList<Integer>();
         if(root==null){
-        	return list;
+            return list;
         }
         Queue<TreeNode> q = new LinkedList<TreeNode>();
         q.add(root);
         while(!q.isEmpty()){
-        	int size = q.size();
-        	for(int i=0;i<size;i++){
-        		TreeNode node = q.poll();
-        		list.add(node.val);
-        		if(node.left!=null){
-        			q.add(node.left);
-        		}
-        		if(node.right!=null){
-        			q.add(node.right);
-        		}
-        	}
+            int size = q.size();
+            for(int i=0;i<size;i++){
+                TreeNode node = q.poll();
+                list.add(node.val);
+                if(node.left!=null){
+                    q.add(node.left);
+                }
+                if(node.right!=null){
+                    q.add(node.right);
+                }
+            }
         }
         return list;
     }
 
 ### 打印二叉树的所有路径
 
-	//resultList保存二叉树的所有路径
-	private void path(TreeNode node, ArrayList<List<Integer>> resultList, ArrayList<Integer> list) {
-		if (node == null) {
-			return;
-		}
-		list.add(node.val);
-		if (node.left == null && node.right == null) {		
-				resultList.add(new ArrayList<Integer>(list));
-		} else {
-			path(node.left,  resultList, list);
-			path(node.right,  resultList, list);
-		}
-		//什么时候remove元素需要特别注意
-		list.remove(list.size() - 1);
-	}
+    //resultList保存二叉树的所有路径
+    private void path(TreeNode node, ArrayList<List<Integer>> resultList, ArrayList<Integer> list) {
+        if (node == null) {
+            return;
+        }
+        list.add(node.val);
+        if (node.left == null && node.right == null) {        
+                resultList.add(new ArrayList<Integer>(list));
+        } else {
+            path(node.left,  resultList, list);
+            path(node.right,  resultList, list);
+        }
+        //什么时候remove元素需要特别注意
+        list.remove(list.size() - 1);
+    }
 
 
 
