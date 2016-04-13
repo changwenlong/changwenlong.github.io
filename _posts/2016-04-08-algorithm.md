@@ -104,9 +104,64 @@ excerpt: 低版本IE的bug和兼容性，点击空块级元素时
 
 ### 思路
 
+此题可以看成二叉树路径求解的扩展，这题只需要在二叉树路径求解的过程中记录下两条路径（指向最小、最大叶节点的路径），然后求出两条路径的最后相同一个子节点（即最大、最小叶节点的最低公共祖先）就可得出两节点间的距离。
+
 ### 实现
 
+    public int getDis(TreeNode root) {
+        /*paths.get(0)用来存放从根结点到最大叶节点的路径
+        paths.get(1)用来存放从根结点到最大叶节点的路径*/
+        List<ArrayList<Integer>> paths = new ArrayList<ArrayList<Integer>>();
+        paths.add(new ArrayList<Integer>());
+        paths.add(new ArrayList<Integer>());
+        paths(root,paths,new ArrayList<Integer>());
+        ArrayList<Integer> maxPath = paths.get(0);
+        int len1 = maxPath.size();
+        ArrayList<Integer> minPath = paths.get(1);
+        int len2 = minPath.size();
+        int result=0;
+        for(int i=0;i<len1&&i<len2;i++){
+            if(maxPath.get(i)!=minPath.get(i)){
+                break;
+            }
+            result=len1+len2-2*(i+1);
+        }
+        return result;
+    }
+    
+    /**
+     * 求二叉树中从根节点到最大、最小叶节点的路径
+     * @param root
+     * @param paths 保存从根节点到最大、最小叶节点的路径
+     * @param list
+     */
+    private void paths(TreeNode root, List<ArrayList<Integer>> paths,ArrayList<Integer> list) {
+        if(root==null){
+            return;
+        }
+        int value = root.val;
+        list.add(value);
+        if(root.left==null&&root.right==null){
+            ArrayList<Integer> maxPath = paths.get(0);
+            if(maxPath.isEmpty()||value>maxPath.get(maxPath.size()-1)){
+                paths.set(0,new ArrayList<Integer>(list));
+            }
+            ArrayList<Integer> minPath = paths.get(1);
+            if(minPath.isEmpty()||value<minPath.get(minPath.size()-1)){
+                paths.set(1,new ArrayList<Integer>(list));
+            }
+        }else{
+            paths(root.left,paths,list);
+            paths(root.right,paths,list);
+        }
+        list.remove(list.size()-1);
+    }
+
 ### 相关题目
+
+求二叉树中两节点的最低公共祖先。
+
+同样也是二叉树路径求解的扩展，记录两条结果已知节点的两条路径，两条路径最后一个相同的子节点即为所求。
 
 
 ## 题目3：寻找第K大
@@ -122,6 +177,44 @@ excerpt: 低版本IE的bug和兼容性，点击空块级元素时
 
 ### 思路
 
+题中已给出思路，根据快排的思路可得到时间复杂度为O(log(n))的实现。
+
 ### 实现
 
+    public int findKth(int[] a, int n, int K) {
+        return find(a, 0, n - 1, n - K);
+    }
+
+    private int find(int[] a, int start, int end, int k){
+        if(start==end){
+            return a[start];
+        }
+        int small = partition(a, start, end);
+        if (k == small) {
+            return a[k];
+        } else if (k > small) {
+            return find(a, small + 1, end, k);
+        } else {
+            return find(a, start, small - 1, k);
+        }
+    }
+    
+    // 快排的基础步骤,将大于end的节点放在右边，小于end的节点放在end的左边，返回end在数组中的位置     
+    private int partition(int[] a, int start, int end) {
+        int small=start-1;
+        for(int i=start;i<end;i++){
+            if(a[i]<a[end]){
+                small++;
+                if(i!=small){
+                    swap(a,small,i);
+                }
+            }
+        }
+        small++;
+        swap(a,small,end);
+        return small;
+    }
+
 ### 相关题目
+
+剑指offer30题：最小的k个数。
