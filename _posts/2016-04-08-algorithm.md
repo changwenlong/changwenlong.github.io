@@ -215,6 +215,12 @@ excerpt: 低版本IE的bug和兼容性，点击空块级元素时
         return small;
     }
 
+    private void swap(int[] a, int small, int i) {
+        int temp=a[i];
+        a[i]=a[small];
+        a[small]=temp;        
+    }
+
 ### 相关题目
 
 剑指offer30题：最小的k个数。
