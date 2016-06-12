@@ -68,7 +68,7 @@ Calendar是可变的，提供`set`方法来设置日期对象：
 
 借助`SimpleDateFormat`，实现`Date`与`String`之间的转化：
 
-   SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     try { // 日期转字符串
         Calendar calendar = Calendar.getInstance();
         Date date = calendar.getTime();
