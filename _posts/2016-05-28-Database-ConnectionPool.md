@@ -18,7 +18,7 @@ excerpt: 低版本IE的bug和兼容性，点击空块级元素时
 
 ### 数据库连接池的基本概念
 
-数据库连接是一种关键的有限的昂贵的资源,这一点在多用户的网页应用程序中体现的尤为突出.对数据库连接的管理能显著影响到整个应用程序的伸缩性和健壮性,影响到程序的性能指标.数据库连接池正式针对这个问题提出来的.==数据库连接池负责分配,管理和释放数据库连接,它允许应用程序重复使用一个现有的数据库连接,而不是重新建立一个==。
+数据库连接是一种关键的有限的昂贵的资源,这一点在多用户的网页应用程序中体现的尤为突出.对数据库连接的管理能显著影响到整个应用程序的伸缩性和健壮性,影响到程序的性能指标.数据库连接池正式针对这个问题提出来的.`数据库连接池负责分配,管理和释放数据库连接,它允许应用程序重复使用一个现有的数据库连接,而不是重新建立一个`。
 
 数据库连接池在初始化时将创建一定数量的数据库连接放到连接池中, 这些数据库连接的数量是由最小数据库连接数来设定的.无论这些数据库连接是否被使用,连接池都将一直保证至少拥有这么多的连接数量.连接池的最大数据库连接数量限定了这个连接池能占有的最大连接数,当应用程序向连接池请求的连接数超过最大连接数量时,这些请求将被加入到等待队列中.
 
@@ -30,7 +30,8 @@ excerpt: 低版本IE的bug和兼容性，点击空块级元素时
 
 ### 编写数据库连接池
 
-编写连接池需实现java.sql.DataSource接口==。DataSource有两个重载的getConnection方法。
+
+`编写连接池需实现java.sql.DataSource接口`。DataSource有两个重载的getConnection方法。
 
     Connection getConnection();
     Connection getConnection(String username, String password);
@@ -39,7 +40,7 @@ excerpt: 低版本IE的bug和兼容性，点击空块级元素时
 
 1. 在DataSource构造函数中批量创建与数据库的连接，并把创建的连接加入连接池对象中。
 2. 实现getConnection方法，让getConnection方法每次调用时，从连接池中取一个Connection返回给用户。
-3. 当用户使用完Connection，调用Connection.close()方法时，Collection对象应保证将自己返回到连接池中,而不要把conn还给数据库。==Collection保证将自己返回到连接池中是此处编程的难点。
+3. 当用户使用完Connection，调用Connection.close()方法时，Collection对象应保证将自己返回到连接池中,而不要把conn还给数据库。`Collection保证将自己返回到连接池中是此处编程的难点`。
 
 >以上所说的链接池就是一个存放connection的容器，可使用阻塞队列实现，这样在连接池为空时取连接会被阻塞。
 
@@ -47,20 +48,20 @@ excerpt: 低版本IE的bug和兼容性，点击空块级元素时
 
 
     Connection proxyConn = (Connection) Proxy.newProxyInstance(this
-    		.getClass().getClassLoader(), conn.getClass().getInterfaces(),
-    		new InvocationHandler() {
-    			// 此处为内部类，当close方法被调用时将conn还回池中,其它方法直接执行
-    			@Override
-    			public Object invoke(Object proxy, Method method,
-    					Object[] args) throws Throwable {
-    				if (method.getName().equals("close")) {
-    					pool.addLast(conn);
-    					return null;
-    				}
-    				return method.invoke(conn, args);
-    			}
-    		});
-    		
+            .getClass().getClassLoader(), conn.getClass().getInterfaces(),
+            new InvocationHandler() {
+                // 此处为内部类，当close方法被调用时将conn还回池中,其它方法直接执行
+                @Override
+                public Object invoke(Object proxy, Method method,
+                        Object[] args) throws Throwable {
+                    if (method.getName().equals("close")) {
+                        pool.addLast(conn);
+                        return null;
+                    }
+                    return method.invoke(conn, args);
+                }
+            });
+            
 ## 开源数据库连接池
 
 现在很多WEB服务器(Weblogic,WebSphere,Tomcat)都提供了DataSoruce的实现，即连接池的实现。通常我们把DataSource的实现，按其英文含义称之为数据源，数据源中都包含了数据库连接池的实现。

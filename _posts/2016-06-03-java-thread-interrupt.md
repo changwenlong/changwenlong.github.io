@@ -15,23 +15,23 @@ excerpt: 低版本IE的bug和兼容性，点击空块级元素时
 先看下面一段程序：
 
     public static void main(String[] args) throws InterruptedException {
-		Thread thread = new Thread(new Runnable(){
-			@Override
-			public void run() {	
-				int i=0;
-				while(i<100){
-					System.out.println("Thread is running"+i++);
-				}
-			}
-			
-		});
-		thread.start();
-		Thread.sleep(2);
-		System.out.println("Before interrupt");
-		thread.interrupt();
-		System.out.println("thread is interupted:"+thread.isInterrupted());
-		System.out.println("After interrupt");
-	}
+        Thread thread = new Thread(new Runnable(){
+            @Override
+            public void run() {    
+                int i=0;
+                while(i<100){
+                    System.out.println("Thread is running"+i++);
+                }
+            }
+            
+        });
+        thread.start();
+        Thread.sleep(2);
+        System.out.println("Before interrupt");
+        thread.interrupt();
+        System.out.println("thread is interupted:"+thread.isInterrupted());
+        System.out.println("After interrupt");
+    }
 
 
 > 输出结果为：
@@ -60,30 +60,31 @@ excerpt: 低版本IE的bug和兼容性，点击空块级元素时
 
 1. 如果线程在调用 Object 类的 wait()、wait(long) 或 wait(long, int) 方法，或者该类的 join()、join(long)、join(long, int)、sleep(long) 或 sleep(long, int) 方法过程中受阻，则其中断状态将被清除，它还将收到一个InterruptedException异常。这个时候，我们可以通过捕获InterruptedException异常来终止线程的执行，具体可以通过return等退出或改变共享变量的值使其退出。
 
-    	public static void main(String[] args) throws InterruptedException {
-    		Thread thread = new Thread(new Runnable(){
-    			@Override
-    			public void run() {	
-    				int i=0;
-    				while(i<100){
-    					try {
-    						Thread.sleep(1);
-    					} catch (InterruptedException e) {
-    						e.printStackTrace();
-    						return;//推出循环，终止线程
-    					}
-    					System.out.println("Thread is running"+i++);
-    				}
-    			}
-    			
-    		});
-    		thread.start();
-    		Thread.sleep(20);//可以自己调整，主要用来观察输出
-    		System.out.println("Before interrupt");
-    		thread.interrupt();
-    		System.out.println("thread is interupted:"+thread.isInterrupted());
-    		System.out.println("After interrupt");
-    	}
+
+        public static void main(String[] args) throws InterruptedException {
+            Thread thread = new Thread(new Runnable(){
+                @Override
+                public void run() {    
+                    int i=0;
+                    while(i<100){
+                        try {
+                            Thread.sleep(1);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                            return;//推出循环，终止线程
+                        }
+                        System.out.println("Thread is running"+i++);
+                    }
+                }
+                
+            });
+            thread.start();
+            Thread.sleep(20);//可以自己调整，主要用来观察输出
+            System.out.println("Before interrupt");
+            thread.interrupt();
+            System.out.println("thread is interupted:"+thread.isInterrupted());
+            System.out.println("After interrupt");
+        }
 
     > 运行结果（Thread.sleep(1)响应中断）
     
@@ -95,36 +96,36 @@ excerpt: 低版本IE的bug和兼容性，点击空块级元素时
         thread is interupted:false
         After interrupt
         java.lang.InterruptedException: sleep interrupted
-        	at java.lang.Thread.sleep(Native Method)
-        	at edu.zju.chwl.thread.InterruptedDemo$1.run(InterruptedDemo.java:17)
-        	at java.lang.Thread.run(Thread.java:744)
+            at java.lang.Thread.sleep(Native Method)
+            at edu.zju.chwl.thread.InterruptedDemo$1.run(InterruptedDemo.java:17)
+            at java.lang.Thread.run(Thread.java:744)
 
 2. 如果该线程在可中断的通道上的 I/O 操作中受阻，则该通道将被关闭，该线程的中断状态将被设置并且该线程将收到一个 ClosedByInterruptException。这时候处理方法一样，只是捕获的异常不一样而已。
 
 ## 通用的终止线程的方法
 
-	public static void main(String[] args) throws InterruptedException {
-		Thread thread = new Thread(new Runnable(){
-			@Override
-			public void run() {	
-				int i=0;
-				while(true){
-					System.out.println("Thread is running"+i++);
-					if(Thread.currentThread().isInterrupted()){//判断中断状态，终止线程执行
-						return;
-					}
-				}
-			}
-			
-		});
-		thread.start();
-		Thread.sleep(20);
-		System.out.println("Before interrupt");
-		thread.interrupt();
-		System.out.println("thread is interupted:"+thread.isInterrupted());
-		System.out.println("After interrupt");
-	}
-	
+    public static void main(String[] args) throws InterruptedException {
+        Thread thread = new Thread(new Runnable(){
+            @Override
+            public void run() {    
+                int i=0;
+                while(true){
+                    System.out.println("Thread is running"+i++);
+                    if(Thread.currentThread().isInterrupted()){//判断中断状态，终止线程执行
+                        return;
+                    }
+                }
+            }
+            
+        });
+        thread.start();
+        Thread.sleep(20);
+        System.out.println("Before interrupt");
+        thread.interrupt();
+        System.out.println("thread is interupted:"+thread.isInterrupted());
+        System.out.println("After interrupt");
+    }
+    
 ## Thread的interrupt、interrupted与isInterrupted方法
 
 1. `interrupt` interrupt方法用于中断线程。调用该方法的线程的状态为将被置为"中断"状态。

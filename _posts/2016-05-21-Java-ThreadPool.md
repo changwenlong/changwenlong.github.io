@@ -51,8 +51,8 @@ ThreadPoolExecutor执行execute方法分四种情况，就是图中的四个叶�
     - DiscardPolicy:不处理，丢弃掉。
 3. runnableTaskQueue(任务队列)：用来保存等待执行的任务的阻塞队列。有以下几种选择。
     - ArrayBlockingQueue：一个基于数组的有界阻塞队列，按FIFO原则对元素进行排序。
-    - LinkedBlockingQueue：一个基于链表的阻塞队列，按FIFO排序元素。吞吐量优于- ----   - 
-    - ArrayBlockingQueue。静态工厂方法Executors.newFixedThreadPool()使用这个队列。
+    - LinkedBlockingQueue：一个基于链表的阻塞队列，按FIFO排序元素。吞吐量优于
+ArrayBlockingQueue。静态工厂方法Executors.newFixedThreadPool()使用这个队列。
     - SynchronousQueue：一个不存储元素的队列。每个插入操作必须等到另一个线程调用移除操作，否则插入操作一直处于阻塞状态，吞吐量优于LinkedBlockingQueue。静态工厂方法Executors.newCachedThreadPool使用这个队列。
     - PriorityBlockingQueue：一个具有优先级的无界阻塞队列。
 
