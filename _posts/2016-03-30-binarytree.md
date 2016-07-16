@@ -68,7 +68,7 @@ excerpt: 低版本IE的bug和兼容性，点击空块级元素时
                 stack.push(p);
                 p = p.left;
             }
-             p = stack.pop();
+            p = stack.pop();
             p = p.right;  
         }
         return list;
@@ -87,7 +87,7 @@ excerpt: 低版本IE的bug和兼容性，点击空块级元素时
                 stack.push(p);
                 p = p.left;
             }
-             p = stack.pop();
+            p = stack.pop();
             list.add(p.val);//访问元素
             p = p.right;                   
         }
@@ -108,7 +108,7 @@ excerpt: 低版本IE的bug和兼容性，点击空块级元素时
                 stack.push(p);
                 p = p.left;
             }
-             TreeNode node = stack.peek();
+            TreeNode node = stack.peek();
             TreeNode right = node.right;
             if (right == null || right == lastVisited) {
                 list.add(stack.pop().val);//访问元素
